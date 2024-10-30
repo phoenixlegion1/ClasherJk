@@ -87,16 +87,11 @@
     <h2 class="w3-wide">BOSS OF COC</h2>
     <p class="w3-opacity"><i>Announcement</i></p>
     <p class="w3-justify">Hello everyone, this message is difficult to share. After much thought, I’ve decided to temporarily close BOSS OF COC.</p>
-
     <p class="w3-justify">We’ve constantly had to remind members to complete clan games, capital attacks, war attacks, and donations, but things still haven’t been running as they should. With over 50% players not completing capital attacks, inactive, not completing clan games and war donations it’s become overwhelming and frustrating for me. managing things has become challenging and exhausting.</p>
-
     <p class="w3-justify">This isn’t a decision I make lightly. Many of you have been loyal, committed, and exceptional players, and I truly appreciate your dedication. It’s because of members like you that I’m confident we’ll come back stronger.</p>
-
     <p class="w3-justify">Right now, I need to take a step back and recharge, so this pause is essential for both my well-being and our clan’s future.</p>
-
-    <p class="w3-justify">When we return, we’ll be refreshed, refocused, and ready to rebuild with a stronger, more dedicated team. Thank you for your loyalty and understanding.
-    </p>
-    <p class="w3-justify">CWL will not be held in BOSS OF COC untill it's rebuild. If you want to play CWL, join at #29Y02C80P. CWL will start on November 1st there.</p>
+    <p class="w3-justify">When we return, we’ll be refreshed, refocused, and ready to rebuild with a stronger, more dedicated team. Thank you for your loyalty and understanding.</p>
+    <p class="w3-justify">CWL will not be held in BOSS OF COC until it’s rebuilt. If you want to play CWL, join at #29Y02C80P. CWL will start on November 1st there.</p>
   </div>
 </div>
 
@@ -138,34 +133,18 @@
     }
   }
 
-  function sendMessage() {
-    const input = document.getElementById("chatInput");
-    const message = input.value.trim();
-    
-    if (message) {
-      addMessage(username + ": " + message);
-      input.value = ""; // Clear input field after sending
-    }
-  }
-
-  function addMessage(text) {
+  // Load previous messages
+  function loadMessages() {
     const messagesDiv = document.getElementById("chatboxMessages");
-    const newMessage = document.createElement("p");
-    newMessage.textContent = text;
-    messagesDiv.appendChild(newMessage);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the bottom
+    const previousMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+    previousMessages.forEach(message => {
+      const newMessage = document.createElement("p");
+      newMessage.textContent = message;
+      messagesDiv.appendChild(newMessage);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to bottom
   }
 
-  // Load previous messages from the session (simulated for display)
-  const previousMessages = JSON.parse(sessionStorage.getItem("messages")) || [];
-  previousMessages.forEach(addMessage);
-
-  function saveMessage(text) {
-    previousMessages.push(text);
-    sessionStorage.setItem("messages", JSON.stringify(previousMessages));
-  }
-
-  // Override the sendMessage function to save each message
   function sendMessage() {
     const input = document.getElementById("chatInput");
     const message = input.value.trim();
@@ -177,6 +156,23 @@
       input.value = ""; // Clear input field after sending
     }
   }
+
+  function addMessage(text) {
+    const messagesDiv = document.getElementById("chatboxMessages");
+    const newMessage = document.createElement("p");
+    newMessage.textContent = text;
+    messagesDiv.appendChild(newMessage);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to bottom
+  }
+
+  function saveMessage(message) {
+    const previousMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+    previousMessages.push(message);
+    localStorage.setItem("chatMessages", JSON.stringify(previousMessages));
+  }
+
+  // Load messages when the page loads
+  window.onload = loadMessages;
 </script>
 
 </body>
